@@ -49,7 +49,6 @@ public class InputScreen extends AppCompatActivity {
         //ASSIGN INSTANCES
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
 
-
         mAuth = FirebaseAuth.getInstance();
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
