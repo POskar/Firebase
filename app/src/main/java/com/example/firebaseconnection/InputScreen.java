@@ -18,6 +18,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class InputScreen extends AppCompatActivity {
@@ -25,6 +27,8 @@ public class InputScreen extends AppCompatActivity {
     Button buttonConfirm;
     EditText editTextImie, editTextNazwisko, editTextWaga, editTextWzrost;
     String userNameString, userSurnameString, userHeightString, userWeightString;
+
+    DatabaseReference mDatabaseRef;
 
     //FIREBASE AUTHENTICATION
     FirebaseAuth mAuth;
@@ -35,11 +39,16 @@ public class InputScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input_screen);
 
+        //ASSIGN ID'S
         buttonConfirm = (Button) findViewById(R.id.buttonConfirm);
         editTextImie = (EditText) findViewById(R.id.editTextImie);
         editTextNazwisko = (EditText) findViewById(R.id.editTextNazwisko);
         editTextWzrost = (EditText) findViewById(R.id.editTextWzrost);
         editTextWaga = (EditText) findViewById(R.id.editTextWaga);
+
+        //ASSIGN INSTANCES
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference();
+
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -72,7 +81,14 @@ public class InputScreen extends AppCompatActivity {
                 if(!TextUtils.isEmpty(userNameString) && !TextUtils.isEmpty(userSurnameString) && !TextUtils.isEmpty(userHeightString) && !TextUtils.isEmpty(userWeightString))
                 {
                     //WRITE TO DATABASE
-                    Toast.makeText(InputScreen.this, "DODAŁEŚ BYKU", Toast.LENGTH_LONG).show();
+                    DatabaseReference mChildDatabase = mDatabaseRef.child("Users").child(mAuth.getCurrentUser().getUid());
+
+                    mChildDatabase.child("UserImie").setValue(userNameString);
+                    mChildDatabase.child("UserNazwisko").setValue(userSurnameString);
+                    mChildDatabase.child("UserWzrost").setValue(userHeightString);
+                    mChildDatabase.child("UserWaga").setValue(userWeightString);
+                    mChildDatabase.child("isVerified").setValue("verified");
+
                     startActivity(new Intent(InputScreen.this, DisplayScreen.class));
                 }
                 else

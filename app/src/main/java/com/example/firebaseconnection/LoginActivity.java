@@ -1,6 +1,7 @@
 package com.example.firebaseconnection;
 
 import android.content.Intent;
+import android.renderscript.ScriptGroup;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +22,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Iterator;
+
 public class LoginActivity extends AppCompatActivity {
 
     //FIELDS
@@ -30,7 +33,6 @@ public class LoginActivity extends AppCompatActivity {
     String userLoginString, userPasswordString;
 
     DatabaseReference mDatabaseRef;
-
 
     //FIREBASE AUTHENTICATION
     FirebaseAuth mAuth;
@@ -61,22 +63,8 @@ public class LoginActivity extends AppCompatActivity {
                 if (user != null)
                 {
 
-                    final String emailForVer = user.getEmail();
-
-                    mDatabaseRef.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-
                 }else{
-                    startActivity(new Intent(LoginActivity.this, InputScreen.class));
+
                 }
 
             }
@@ -98,11 +86,33 @@ public class LoginActivity extends AppCompatActivity {
 
                             if(task.isSuccessful())
                             {
-                                startActivity(new Intent(LoginActivity.this, InputScreen.class));
+                                DatabaseReference mChildDatabase = mDatabaseRef.child("Users").child(mAuth.getCurrentUser().getUid());
+
+                                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference().child("Users");
+                                DatabaseReference uidRef = rootRef.child(uid);
+
+                                uidRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        if(dataSnapshot.child("isVerified").getValue().toString().equals("unverified")){
+                                            startActivity(new Intent(LoginActivity.this, InputScreen.class));
+                                        }
+                                        else
+                                        {
+                                            startActivity(new Intent(LoginActivity.this, DisplayScreen.class));
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
                             }
                             else
                             {
-                                Toast.makeText(LoginActivity.this, "User Login Failed!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(LoginActivity.this, "Nie udało się zalogować", Toast.LENGTH_LONG).show();
                             }
                         }
                     });

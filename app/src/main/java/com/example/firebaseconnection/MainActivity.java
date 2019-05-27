@@ -15,6 +15,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Iterator;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     Button buttonRegister, moveToLogin;
     EditText userLogin, userPassword;
 
+    DatabaseReference mDatabaseRef, mUserCheckData;
 
     //FIREBASE AUTHENTIACTION
     FirebaseAuth mAuth;
@@ -39,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
         userPassword = (EditText) findViewById(R.id.editTextPasswordOnRegister);
 
         //ASSIGN INSTANCES
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference();
+        mUserCheckData = FirebaseDatabase.getInstance().getReference().child("Users");
+
         mAuth = FirebaseAuth.getInstance();
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -53,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    startActivity(new Intent(MainActivity.this, InputScreen.class));
+
                 }
             }
         };
@@ -63,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String userLoginString, userPasswordString;
+                final String userLoginString, userPasswordString;
 
                 userLoginString = userLogin.getText().toString().trim();
                 userPasswordString = userPassword.getText().toString().trim();
@@ -75,6 +86,15 @@ public class MainActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful())
                             {
+                                DatabaseReference mChildDatabase = mDatabaseRef.child("Users").child(mAuth.getCurrentUser().getUid());
+
+                                String key_user = mChildDatabase.getKey();
+
+                                mChildDatabase.child("isVerified").setValue("unverified");
+                                mChildDatabase.child("userKey").setValue(key_user);
+                                mChildDatabase.child("Login").setValue(userLoginString);
+                                mChildDatabase.child("Password").setValue(userPasswordString);
+
                                 Toast.makeText(MainActivity.this, "Stworzono użytkownika", Toast.LENGTH_LONG).show();
                                 startActivity(new Intent(MainActivity.this, InputScreen.class));
                             }else

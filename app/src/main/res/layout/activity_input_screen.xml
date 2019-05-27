@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Wzrost: "
-            android:inputType="textPersonName" />
+            android:inputType="number|numberDecimal" />
 
         <EditText
             android:id="@+id/editTextWaga"
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Waga: "
-            android:inputType="textPersonName" />
+            android:inputType="numberDecimal" />
 
         <Button
             android:id="@+id/buttonConfirm"
