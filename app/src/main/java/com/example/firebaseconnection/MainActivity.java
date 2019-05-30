@@ -1,6 +1,8 @@
 package com.example.firebaseconnection;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     Button buttonRegister, moveToLogin;
     EditText userLogin, userPassword;
 
-    DatabaseReference mDatabaseRef, mUserCheckData;
+    DatabaseReference mDatabaseRef;
 
     //FIREBASE AUTHENTIACTION
     FirebaseAuth mAuth;
@@ -48,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
 
         //ASSIGN INSTANCES
         mDatabaseRef = FirebaseDatabase.getInstance().getReference();
-        mUserCheckData = FirebaseDatabase.getInstance().getReference().child("Users");
 
         mAuth = FirebaseAuth.getInstance();
 

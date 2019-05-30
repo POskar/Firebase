@@ -22,6 +22,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.security.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 
 public class LoginActivity extends AppCompatActivity {
@@ -50,9 +54,10 @@ public class LoginActivity extends AppCompatActivity {
           editTextPassword = (EditText) findViewById(R.id.editTextPassword);
 
         //ASSIGN INSTANCES
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference();
 
         mAuth = FirebaseAuth.getInstance();
+
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -86,15 +91,12 @@ public class LoginActivity extends AppCompatActivity {
 
                             if(task.isSuccessful())
                             {
-                                DatabaseReference mChildDatabase = mDatabaseRef.child("Users").child(mAuth.getCurrentUser().getUid());
+                                final DatabaseReference mChildDatabase = mDatabaseRef.child("Users").child(mAuth.getCurrentUser().getUid());
 
-                                String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                                DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference().child("Users");
-                                DatabaseReference uidRef = rootRef.child(uid);
-
-                                uidRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                                mChildDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
                                         if(dataSnapshot.child("isVerified").getValue().toString().equals("unverified")){
                                             startActivity(new Intent(LoginActivity.this, InputScreen.class));
                                         }

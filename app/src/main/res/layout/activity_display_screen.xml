@@ -6,10 +6,84 @@
     android:layout_height="match_parent"
     tools:context=".DisplayScreen">
 
+    <RadioButton
+        android:id="@+id/radioButtonBreakfast"
+        android:layout_width="155dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="327dp"
+        android:layout_marginBottom="372dp"
+        android:text="Zjadłem śniadanie"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintHorizontal_bias="0.684"
+        app:layout_constraintStart_toEndOf="@+id/textViewBreakfast"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout" />
+
+    <RadioButton
+        android:id="@+id/radioButtonDinner"
+        android:layout_width="150dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Zjadłem obiad"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintStart_toEndOf="@+id/textViewDinner"
+        app:layout_constraintTop_toBottomOf="@+id/radioButtonBreakfast" />
+
+    <Button
+        android:id="@+id/buttonLogout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Logout"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout" />
+
+    <Button
+        android:id="@+id/buttonLosuj"
+        android:layout_width="121dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="455dp"
+        android:layout_marginEnd="152dp"
+        android:layout_marginBottom="224dp"
+        android:text="LOSUJ"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout" />
+
+    <TextView
+        android:id="@+id/textViewBreakfast"
+        android:layout_width="213dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="329dp"
+        android:layout_marginBottom="372dp"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout" />
+
+    <TextView
+        android:id="@+id/textViewDinner"
+        android:layout_width="214dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewBreakfast" />
+
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="-16dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <TextView
             android:id="@+id/textViewEmail"
@@ -47,13 +121,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="TextView" />
-
-        <Button
-            android:id="@+id/buttonLogout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
-            android:text="Logout" />
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>
